@@ -1,9 +1,11 @@
 var pathSep = require('path').sep;
+
 function teamcityReporter(result) {
-    if (process.argv.filter(it => it === '--teamcity').length === 0) {
-        return;
+    if (process.argv.filter(it => it === '--teamcity').length > 0 ||
+        process.env.TEAMCITY_VERSION)
+    {
+        result.testResults.forEach(it => logTestSuite(it));
     }
-    result.testResults.forEach(it => logTestSuite(it));
 }
 
 function logTestSuite(suite) {
@@ -18,18 +20,29 @@ function logTestSuite(suite) {
 }
 
 function logTestResult(suite, testResult) {
-    const name = escape(testResult.title);
+    if (testResult.status === 'pending') {
+        logIgnoredTest(testResult);
+    } else {
+        logRunningTest(testResult);
+    }
+}
 
+function logRunningTest(testResult) {
+    const name = escape(testResult.fullName);
+    const duration = testResult.duration | 0;
     console.log("##teamcity[testStarted name='%s']", name);
-
     if (testResult.status === 'failed') {
         const details = testResult.failureMessages.length > 0
-            ? testResult.failureMessages[0]
+              ? testResult.failureMessages[0]
             : 'No details available';
         console.log("##teamcity[testFailed name='%s' message='FAILED' details='%s']", name, escape(details));
     }
+    console.log("##teamcity[testFinished name='%s' duration='%s']", name, duration);
+}
 
-    console.log("##teamcity[testFinished name='%s']", name);
+function logIgnoredTest(testResult) {
+    const name = escape(testResult.fullName);
+    console.log("##teamcity[testIgnored name='%s']", name);
 }
 
 
