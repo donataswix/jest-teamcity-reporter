@@ -6,6 +6,7 @@ function teamcityReporter(result) {
     {
         result.testResults.forEach(it => logTestSuite(it));
     }
+    return result;
 }
 
 function logTestSuite(suite) {
