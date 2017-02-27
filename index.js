@@ -20,15 +20,26 @@ function logCoverage(summary) {
     if (lines || branches || statements) {
         console.log("##teamcity[blockOpened name='Code Coverage Summary']");
         if (lines) {
-            console.log("##teamcity[buildStatisticValue key='CodeCoverageL' value='" + lines + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageL' value='" + lines.pct + "']");
         }
         if (statements) {
-            console.log("##teamcity[buildStatisticValue key='CodeCoverageS' value='" + statements + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageS' value='" + statements.pct + "']");
         }
         if (branches) {
-            console.log("##teamcity[buildStatisticValue key='CodeCoverageB' value='" + branches + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageB' value='" + branches.pct + "']");
         }
         console.log("##teamcity[blockClosed name='Code Coverage Summary']");
+    }
+    if (branches) {
+        if (branches.pct >= 80) {
+            console.log("##teamcity[buildStatus status='SUCCESS' text='👍 coverage']");
+        }
+        else if (branches.pct >= 70) {
+            console.log("##teamcity[buildStatus status='SUCCESS' text='👌 coverage']");
+        }
+        else {
+            console.log("##teamcity[buildStatus status='SUCCESS' text='👎 coverage']");
+        }
     }
 }
 
