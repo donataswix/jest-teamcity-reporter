@@ -5,9 +5,9 @@ function teamcityReporter(result) {
         process.env.TEAMCITY_VERSION)
     {
         result.testResults.forEach(it => logTestSuite(it));
-        if (result.coverageMap) {
-            logCoverage(result.coverageMap.getCoverageSummary());
-        }
+        // if (result.coverageMap) {
+        //     logCoverage(result.coverageMap.getCoverageSummary());
+        // }
     }
     return result;
 }
