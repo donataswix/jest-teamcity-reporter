@@ -5,8 +5,31 @@ function teamcityReporter(result) {
         process.env.TEAMCITY_VERSION)
     {
         result.testResults.forEach(it => logTestSuite(it));
+        if (result.coverageMap) {
+            logCoverage(result.coverageMap.getCoverageSummary());
+        }
     }
     return result;
+}
+
+function logCoverage(summary) {
+    const data = summary && summary.data || {};
+    const lines = data.lines;
+    const branches = data.branches;
+    const statements = data.statements;
+    if (lines || branches || statements) {
+        console.log("##teamcity[blockOpened name='Code Coverage Summary']");
+        if (lines) {
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageL' value='" + lines + "']");
+        }
+        if (statements) {
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageS' value='" + statements + "']");
+        }
+        if (branches) {
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageB' value='" + branches + "']");
+        }
+        console.log("##teamcity[blockClosed name='Code Coverage Summary']");
+    }
 }
 
 function logTestSuite(suite) {
