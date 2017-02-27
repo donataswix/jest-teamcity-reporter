@@ -5,9 +5,9 @@ function teamcityReporter(result) {
         process.env.TEAMCITY_VERSION)
     {
         result.testResults.forEach(it => logTestSuite(it));
-        // if (result.coverageMap) {
-        //     logCoverage(result.coverageMap.getCoverageSummary());
-        // }
+        if (result.coverageMap) {
+            logCoverage(result.coverageMap.getCoverageSummary());
+        }
     }
     return result;
 }
@@ -21,25 +21,23 @@ function logCoverage(summary) {
         console.log("##teamcity[blockOpened name='Code Coverage Summary']");
         if (lines) {
             console.log("##teamcity[buildStatisticValue key='CodeCoverageL' value='" + lines.pct + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageAbsLCovered' value='" + lines.covered + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageAbsLTotal' value='" + lines.total + "']");
         }
         if (statements) {
             console.log("##teamcity[buildStatisticValue key='CodeCoverageS' value='" + statements.pct + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageAbsSCovered' value='" + statements.covered + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageAbsSTotal' value='" + statements.total + "']");
         }
         if (branches) {
-            console.log("##teamcity[buildStatisticValue key='CodeCoverageB' value='" + branches.pct + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageR' value='" + branches.pct + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageAbsRCovered' value='" + branches.covered + "']");
+            console.log("##teamcity[buildStatisticValue key='CodeCoverageAbsRTotal' value='" + branches.total + "']");
         }
         console.log("##teamcity[blockClosed name='Code Coverage Summary']");
     }
     if (branches) {
-        if (branches.pct >= 80) {
-            console.log("##teamcity[buildStatus status='SUCCESS' text='👍 coverage']");
-        }
-        else if (branches.pct >= 70) {
-            console.log("##teamcity[buildStatus status='SUCCESS' text='👌 coverage']");
-        }
-        else {
-            console.log("##teamcity[buildStatus status='SUCCESS' text='👎 coverage']");
-        }
+        console.log("##teamcity[buildStatus status='SUCCESS' text='" + branches.pct + " coverage; {build.status.text}']");
     }
 }
 
