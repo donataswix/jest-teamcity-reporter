@@ -1,12 +1,15 @@
 {
-  "name": "jest-teamcity-reporter",
-  "version": "0.2.0",
+  "name": "jest-tc-reporter",
+  "version": "1.0.0",
   "license": "MIT",
-  "description": "Teamcity Reporter for Jest Test Results",
-  "homepage": "https://github.com/winterbe/jest-teamcity-reporter",
+  "description": "Teamcity Reporter for Jest",
+  "homepage": "https://github.com/donataswix/jest-teamcity-reporter",
+  "scripts": {
+    "test": "jest"
+  },
   "author": {
-    "name": "Benjamin Winterberg",
-    "url": "http://winterbe.com"
+    "name": "Donatas Petrauskas",
+    "email": "donatasp@wix.com"
   },
   "keywords": [
     "jest",
@@ -19,11 +22,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/winterbe/jest-teamcity-reporter.git"
+    "url": "git://github.com/donataswix/jest-teamcity-reporter.git"
   },
   "bugs": {
-    "url": "https://github.com/winterbe/jest-teamcity-reporter/issues"
+    "url": "https://github.com/donataswix/jest-teamcity-reporter/issues"
   },
-  "main": "index.js",
-  "dependencies": {}
+  "main": "src/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^20.0.4",
+    "shelljs": "^0.7.8"
+  }
 }

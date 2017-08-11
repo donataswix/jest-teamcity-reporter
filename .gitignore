@@ -1,2 +1,4 @@
 .idea
 *.iml
+.dir-locals.el
+node_modules/
