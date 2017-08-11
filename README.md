@@ -1,3 +1,5 @@
+![Travis CI Status](https://travis-ci.org/donataswix/jest-teamcity-reporter.svg?branch=master)
+
 # jest-tc-reporter
 
 A fork of [jest-teamcity-reporter](https://github.com/winterbe/jest-teamcity-reporter).
